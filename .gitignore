@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 Pipfile
+.DS_Store
 
 # C extensions
 *.so
