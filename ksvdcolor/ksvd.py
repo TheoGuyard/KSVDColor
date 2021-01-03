@@ -1,6 +1,5 @@
 import numpy as np
 import scipy as sp
-from sklearn.linear_model import orthogonal_mp_gram
 from .omp import matrix_omp
 
 
@@ -18,8 +17,7 @@ class KSVD:
 
     """
 
-    def __init__(self, k, maxiter, omp_tol=None, omp_nnz=None, use_sklearn=True,
-                param_a=0.):
+    def __init__(self, k, maxiter, omp_tol=None, omp_nnz=None, param_a=0.):
         """
         Parameters
         ----------
@@ -31,8 +29,6 @@ class KSVD:
             Target precision in OMP
         omp_nnz : int
             Target number of non-zero coefficients in OMP
-        use_sklearn : bool
-            Whether to use sklearn for the OMP step
         param_a : float
            Correction parameter a (where gamma = 2a+a^2) for the modified scalar
            product.
@@ -42,7 +38,6 @@ class KSVD:
         self.omp_tol = omp_tol
         self.omp_nnz = omp_nnz
         self.dictionary = None
-        self.use_sklearn = use_sklearn
         self.param_a = param_a
         self.modified_metric_matrix = None
         
@@ -87,15 +82,7 @@ class KSVD:
         A =  A @ self.modified_metric_matrix
         Y = Y @ self.modified_metric_matrix
 
-        if self.use_sklearn:
-            gram = A.dot(A.T)
-            AY = A.dot(Y.T)
-            norms_squared = np.linalg.norm(Y ** 2, axis=1) if self.omp_tol is not None else None
-            return orthogonal_mp_gram(gram, AY, 
-                n_nonzero_coefs=self.omp_nnz, tol=self.omp_tol,
-                norms_squared=norms_squared).T
-        else:
-            return matrix_omp(A.T, Y.T, tol=self.omp_tol, nnz=self.omp_nnz).T
+        return matrix_omp(A.T, Y.T, tol=self.omp_tol, nnz=self.omp_nnz).T
 
     def learn_dictionary(self, Y):
         """
@@ -106,10 +93,14 @@ class KSVD:
         Y : np.ndarray with 2 dims
             Input signal.
         """
+        print("KSVD algorithm")
+        print("--------------")
         A = self._initialize(Y)
         for i in range(self.maxiter):
-            print(f"Iteration {i+1}/{self.maxiter} ...")
+            print(f"Iteration {i+1}/{self.maxiter}")
+            print("  Sparse coding (OMP) step ...")
             alpha = self._denoise(A, Y)
+            print("  Dictionary update step ...")
             A, alpha = self._update_dict(Y, A, alpha)
 
         self.dictionary = A
@@ -127,4 +118,5 @@ class KSVD:
         if self.dictionary is None:
             raise ValueError("Dictionary not learned yet, consider `learn_dictionary(Y)` first.")
 
+        print("Denoising signal ...")
         return self._denoise(self.dictionary, Y)
