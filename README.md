@@ -1,5 +1,5 @@
 # KSVDColor
-K-SVD algorithm for denoising colored images. This version of the K-SVD is implemented with the special metric for the OMP defines in [1] step allowing to prevent color artefacts in the denoised image.
+K-SVD algorithm for denoising colored images. This version of the K-SVD is implemented with the special metric for the OMP defined in [1] which prevents from color artefacts in the denoised image.
 
 ## Informations
 
