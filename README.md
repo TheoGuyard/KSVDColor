@@ -1,5 +1,5 @@
 # KSVDColor
-K-SVD algorithm for denoising colored images. This version of the K-SVD is implemented with a special metric in the OMP step allowing to prevent color artefacts in the denoised image.
+K-SVD algorithm for denoising colored images. This version of the K-SVD is implemented with the special metric for the OMP defines in [1] step allowing to prevent color artefacts in the denoised image.
 
 ## Informations
 
@@ -9,7 +9,7 @@ K-SVD algorithm for denoising colored images. This version of the K-SVD is imple
 
 ## References
 
-* *Sparse Representation for Color Image Restoration*, J. Mairal, M. Elad, G. Sapiro. IEEE 2008
+* [1] *Sparse Representation for Color Image Restoration*, J. Mairal, M. Elad, G. Sapiro. IEEE 2008
 
 ## Example
 
