@@ -5,7 +5,7 @@ K-SVD algorithm for denoising colored images. This version of the K-SVD is imple
 
 * **Author** : Theo Guyard
 * **Language** : `Python v3.8.2`
-* **Dependencies** : `numpy`, `scipy` ( `matplotlib` and `skimage`, `sklearn` are also used in the example below)
+* **Dependencies** : `numpy`, `scipy` ( `matplotlib` and `skimage`, `sklearn` are also used in the `example.py` file).
 
 ## References
 
